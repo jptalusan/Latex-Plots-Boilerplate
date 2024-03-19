@@ -1,0 +1,51 @@
+\pgfplotstableread[col sep=comma]{data/multi_plot.csv}{\data}
+
+% \pgfplotstableread{
+% T   A   B   C
+% 20  0   450 43
+% 23  0   400 42
+% 25  0   350 41
+% 30  0   320 40
+% 40  0   300 40
+% 20  10  400 38
+% 23  10  380 37
+% 25  10  350 36
+% 30  10  310 35
+% 40  10  280 40
+% }\data
+
+% \pgfplotstablesort[sort key={T}]{\sorted}{\data}
+
+   % \pgfplotstabletypeset[row predicate/.code={%
+   % \pgfplotstablegetelem{#1}{T}\of{\sorted}
+   % \ifnum\pgfplotsretval=20\relax
+   % \else\pgfplotstableuserowfalse\fi}]
+   % {\sorted}
+
+\begin{figure}
+   \begin{tikzpicture}
+    \begin{axis}[
+     xlabel=X,
+     ylabel=Y1,
+     % Grids
+    minor x tick num=5,
+    minor y tick num=5,
+    grid=both,
+    ymajorgrids=true,
+    yminorgrids=true,
+    % xmajorgrids=false,
+    xminorgrids=false,
+    major grid style={line width=.2pt,draw=gray!30},
+    %
+    x filter/.code={\pgfplotstablegetelem{\coordindex}{Y2}\of{\data}
+                    \ifnum\pgfplotsretval>14
+                    \else
+                    \def\pgfmathresult{}
+                    \fi
+                   },
+    ]
+   \addplot[only marks] table[x=X,y=Y1] {\data};
+   \end{axis}
+   \end{tikzpicture}
+   \caption{Filtering a csv and adding major and minor grids}
+\end{figure}

@@ -1,0 +1,27 @@
+% Read the data/testdata2.dat
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\begin{axis} [
+    box plot width=2mm, 
+    height=3in,
+    xtick = {1, 2, 3, 4, 5},
+    xticklabels = {A, B, C, D, E},
+]
+% \boxplot [forget plot, red] {testdata.dat}
+\boxplot [
+    forget plot, black, width=0.40\textwidth,
+    % fill,fill opacity=0.5,
+    fill=blue!30!white,
+    box plot whisker bottom index=1,
+    box plot whisker top index=5,
+    box plot box bottom index=2,
+    box plot box top index=4,
+    box plot median index=3
+] {data/testdata2.dat}
+% Add extra plot
+% \addplot [domain=-2:6, thick, cyan] {-x+25+rnd}; \addlegendentry{Some line}
+\end{axis}
+\end{tikzpicture}
+\caption{One Box Plot}
+\end{figure}

@@ -1,0 +1,52 @@
+\pgfplotstableread[col sep=comma]{data/fig_1_to_jp_r_3.csv}{\routethree}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    xlabel={Trip Load},
+    ylabel={Number of\\Trips},
+    % xmin=1, xmax=31, % Adjust the x-axis range to fit the number of days in the month
+    ymin=0, % Adjust the y-axis range as needed
+    grid=both,
+    grid style={line width=.1pt, draw=gray!10},
+    major grid style={line width=.2pt,draw=gray!50},
+    % minor tick num=4,
+    enlarge x limits=false,
+    enlarge y limits={upper,value=0.1},
+    legend pos=north east,
+    width=0.45\textwidth,
+    height=2in,
+    % Adjust steps
+    % xtick distance=2
+    % Changing label format 1:
+    % /pgf/number format/.cd,
+    %         use comma,
+    %         1000 sep={}
+    % Changing label format 2:
+    scaled y ticks=base 10:-3,
+    ytick scale label code/.code={},
+    yticklabel={\pgfmathprintnumber{\tick}k},
+    % NEeded to new line the label
+    ylabel style={align=center}
+]
+
+% Create a named path for the horizontal axis.
+% https://www.sqlpac.com/en/documents/latex-pgfplots-tikz-filling-areas-under-and-between-curves.html
+\path [name path=xaxis]
+      (\pgfkeysvalueof{/pgfplots/xmin},0) --
+      (\pgfkeysvalueof{/pgfplots/xmax},0);
+      
+% Plot the line
+\addplot[blue, name path=a, no markers, smooth, thick] table[x=trip_load, y=transit_date, col sep=comma]{\routethree};
+\legend{Route 3}
+
+\addplot+[blue!30, opacity=0.4] fill between [of=a and xaxis, soft clip={domain=-1:150}];
+% \legend{Value2}
+
+
+\end{axis}
+\end{tikzpicture}
+\caption{Adding Fill between}
+\label{fig:heavy_tail}
+\end{figure}

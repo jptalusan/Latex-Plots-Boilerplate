@@ -1,0 +1,61 @@
+% multiple restricting commands
+\pgfplotstableread[col sep=comma]{data/restricted_data.csv}\alldata
+
+
+\begin{figure}
+\centering
+\begin{tikzpicture}
+
+% Read the data from the csv file
+% \pgfplotstableread[col sep=comma]{data/bar_with_error.csv}{\loadedtable}
+\begin{axis}[
+    width=0.52\textwidth,
+    % height=\axisheight,
+    % xlabel={Days},
+    % xtick = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+    % ylabel={Energy (kWh)},
+    ylabel style={rotate=0},
+    % tick pos=left,
+    cycle list name=color list,
+    % legend columns=4,
+    % legend style={at={(1.0, 1.01)}, anchor=south},
+    group style={
+        group size=2 by 2, % 1 column, 3 rows
+        vertical sep=1.0cm, % Separation between plots
+        horizontal sep=0.8cm, % Separation between plots
+    },
+    % Filtering
+    % x filter/.code={\pgfplotstablegetelem{\coordindex}{month}\of{\alldata}
+    %             \ifnum\pgfplotsretval=6
+    %             \else
+    %             \def\pgfmathresult{}
+    %             \fi
+    %            },
+]
+
+%  Will only plot data with policy == 0
+\addplot [blue!80, mark=o] 
+         table [
+            x=day, 
+            y={need}, 
+            meta=policy,
+            restrict expr to domain={\thisrow{policy}}{0:0},
+            restrict expr to domain={\thisrow{month}}{6:6}
+          ] {\alldata};
+\addlegendentry{Restrict 0 and 6}
+          
+\addplot [red!80, mark=square*] 
+         table [
+            x=day, 
+            y={need}, 
+            meta=policy,
+            restrict expr to domain={\thisrow{policy}}{1:1},
+            restrict expr to domain={\thisrow{month}}{11:11}
+          ] {\alldata};
+\addlegendentry{Restrict 1 and 11}
+
+
+\end{axis}
+\end{tikzpicture}
+\caption{Restricting based on multiple row value}
+\end{figure}

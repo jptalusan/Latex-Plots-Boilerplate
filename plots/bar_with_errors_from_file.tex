@@ -1,0 +1,55 @@
+% load the data table ...
+\pgfplotstableread[col sep=comma]{data/bar_with_error.csv}{\loadedtable}
+    % and store the number of columns in `\NoOfCols'
+    % (minus 1 because counting in `\foreach' starts with zero
+    \pgfplotstablegetcolsof{\loadedtable}
+% load the data table ...
+\pgfplotstableread[col sep=comma]{data/bar_with_error2.csv}{\loadedtableB}
+    % and store the number of columns in `\NoOfCols'
+    % (minus 1 because counting in `\foreach' starts with zero
+    \pgfplotstablegetcolsof{\loadedtableB}
+
+
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.80\linewidth,
+    ybar,
+    enlargelimits=0.15,
+    % legend style={
+    %   legend columns=-1
+    % },
+    legend pos=outer north east,
+    ylabel={Anteil},
+    ylabel style={font=\large},
+    xtick=data,
+    % xticklabels from table={\loadedtable}{Condition}, % Read xticklabels from the CSV file
+    xticklabel style={
+        rotate=45,
+    },
+]
+%neutral
+\addplot[blue,fill=blue!30!white,error bars/.cd,y dir=both,y explicit,] table[
+  x expr=\coordindex, % Use index for x values
+  y=Mean, % y values from "Mean" column
+  col sep=comma,
+  y error=Error % Error values from "Error" column
+] {\loadedtable};
+
+%negativ
+\addplot[red,fill=red!30!white,error bars/.cd,y dir=both,y explicit,] table[
+  x expr=\coordindex+0.0, % Offset x values for the second plot
+  y=Mean, % y values from "Mean" column
+  col sep=comma,
+  y error=Error % Error values from "Error" column
+] {\loadedtableB};
+
+
+\legend{neutral,negativ}
+\end{axis}
+\end{tikzpicture}
+\caption{Bar with Errors From File}
+\label{GedaechtnisBilderB}
+\end{figure}
+

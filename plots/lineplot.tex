@@ -1,0 +1,39 @@
+\pgfplotstableread[col sep=comma]{data/line_plot.csv}{\loadedtable}
+    % and store the number of columns in `\NoOfCols'
+    % (minus 1 because counting in `\foreach' starts with zero
+    \pgfplotstablegetcolsof{\loadedtable}
+    % \pgfmathtruncatemacro{\NoOfCols}{\pgfplotsretval-1}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    xlabel={Day of the Month},
+    ylabel={Value},
+    xmin=1, xmax=31, % Adjust the x-axis range to fit the number of days in the month
+    ymin=0, % Adjust the y-axis range as needed
+    grid=both,
+    grid style={line width=.1pt, draw=gray!10},
+    major grid style={line width=.2pt,draw=gray!50},
+    % minor tick num=4,
+    enlarge x limits=false,
+    enlarge y limits={upper,value=0.1},
+    legend pos=north east,
+    width=0.45\textwidth,
+    % Adjust steps
+    xtick distance=2
+]
+
+% Plot the line
+\addplot+[no marks, thick, color=red!100] table[x=Day, y=Value, col sep=comma]{\loadedtable};
+\legend{Value}
+
+
+\addplot+[mark=*, thick] table[x=Day, y=Value2, col sep=comma]{\loadedtable};
+\legend{Value2}
+
+
+\end{axis}
+\end{tikzpicture}
+\caption{Line plot of values over the days of the month}
+\end{figure}

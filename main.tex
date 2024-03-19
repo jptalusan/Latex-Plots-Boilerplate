@@ -1,0 +1,168 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{statistics}
+\pgfplotsset{compat=newest}
+% \usepackage{filecontents}
+\usepgfplotslibrary{fillbetween} % Load the fillbetween library
+\usepgfplotslibrary{groupplots}
+%%%%%%%%%%%% For one box plot %%%%%%%%%%%%
+\pgfplotsset{
+    box plot/.style={
+        /pgfplots/.cd,
+        black, % color
+        only marks,
+        mark=-,
+        mark size=\pgfkeysvalueof{/pgfplots/box plot width},
+        /pgfplots/error bars/y dir=plus,
+        /pgfplots/error bars/y explicit,
+        /pgfplots/table/x index=\pgfkeysvalueof{/pgfplots/box plot x index},
+    },
+    box plot box/.style={
+        /pgfplots/error bars/draw error bar/.code 2 args={%
+            \draw  ##1 -- ++(\pgfkeysvalueof{/pgfplots/box plot width},0pt) |- ##2 -- ++(-\pgfkeysvalueof{/pgfplots/box plot width},0pt) |- ##1 -- cycle;
+        },
+        /pgfplots/table/.cd,
+        y index=\pgfkeysvalueof{/pgfplots/box plot box top index},
+        y error expr={
+            \thisrowno{\pgfkeysvalueof{/pgfplots/box plot box bottom index}}
+            - \thisrowno{\pgfkeysvalueof{/pgfplots/box plot box top index}}
+        },
+        /pgfplots/box plot
+    },
+    box plot top whisker/.style={
+        /pgfplots/error bars/draw error bar/.code 2 args={%
+            \pgfkeysgetvalue{/pgfplots/error bars/error mark}%
+            {\pgfplotserrorbarsmark}%
+            \pgfkeysgetvalue{/pgfplots/error bars/error mark options}%
+            {\pgfplotserrorbarsmarkopts}%
+            \path ##1 -- ##2;
+        },
+        /pgfplots/table/.cd,
+        y index=\pgfkeysvalueof{/pgfplots/box plot whisker top index},
+        y error expr={
+            \thisrowno{\pgfkeysvalueof{/pgfplots/box plot box top index}}
+            - \thisrowno{\pgfkeysvalueof{/pgfplots/box plot whisker top index}}
+        },
+        /pgfplots/box plot
+    },
+    box plot bottom whisker/.style={
+        /pgfplots/error bars/draw error bar/.code 2 args={%
+            \pgfkeysgetvalue{/pgfplots/error bars/error mark}%
+            {\pgfplotserrorbarsmark}%
+            \pgfkeysgetvalue{/pgfplots/error bars/error mark options}%
+            {\pgfplotserrorbarsmarkopts}%
+            \path ##1 -- ##2;
+        },
+        /pgfplots/table/.cd,
+        y index=\pgfkeysvalueof{/pgfplots/box plot whisker bottom index},
+        y error expr={
+            \thisrowno{\pgfkeysvalueof{/pgfplots/box plot box bottom index}}
+            - \thisrowno{\pgfkeysvalueof{/pgfplots/box plot whisker bottom index}}
+        },
+        /pgfplots/box plot
+    },
+    box plot median/.style={
+        /pgfplots/box plot,
+        /pgfplots/table/y index=\pgfkeysvalueof{/pgfplots/box plot median index}
+    },
+    box plot width/.initial=1em,
+    box plot x index/.initial=0,
+    box plot median index/.initial=1,
+    box plot box top index/.initial=2,
+    box plot box bottom index/.initial=3,
+    box plot whisker top index/.initial=4,
+    box plot whisker bottom index/.initial=5,
+}
+
+\newcommand{\boxplot}[2][]{
+    \addplot [box plot median,#1] table {#2};
+    \addplot [forget plot, box plot box,#1] table {#2};
+    \addplot [forget plot, box plot top whisker,#1] table {#2};
+    \addplot [forget plot, box plot bottom whisker,#1] table {#2};
+}
+
+%%%%%%%%%%%%  For color boxplot %%%%%%%%%%%%
+% Nice color sets, see see http://colorbrewer2.org/ 
+\usepgfplotslibrary{colorbrewer}
+% initialize Set1-4 from colorbrewer (we're comparing 4 classes),
+\pgfplotsset{compat = 1.15, 
+             cycle list/Set1-8} 
+% Tikz is loaded automatically by pgfplots
+% \usetikzlibrary{pgfplots.statistics, pgfplots.colorbrewer} 
+% provides \pgfplotstabletranspose
+
+
+%%%%%%%%%%%%  For bar plot %%%%%%%%%%%%
+
+\usetikzlibrary{arrows.meta}
+
+%%%%%%%%%%%%  For secondary y axis plot %%%%%%%%%%%%
+
+% Define the style for the secondary y-axis
+\pgfplotsset{
+    y2axis style/.style={
+        axis y line*=right,
+        axis x line=none,
+        ylabel= {y2 axis label},
+        yticklabel style= {color=red},
+        ylabel style= {color=red, align=center},
+    }
+}
+
+
+%%%%%%%%%%%%%%%%%%%% Removing the legend 2 bars for bar plot %%%%%%%%%%%%%%%%%%%%%%%
+\pgfplotsset{compat=newest,
+        /pgfplots/ybar legend/.style={
+        /pgfplots/legend image code/.code={%
+        %\draw[##1,/tikz/.cd,yshift=-0.25em]
+                %(0cm,0cm) rectangle (3pt,0.8em);},
+        \draw[##1,/tikz/.cd,bar width=3pt,yshift=-0.2em,bar shift=0pt]
+                plot coordinates {(0cm,0.8em)};},
+},
+}
+
+%%%%%%%%%%%%%%%%%%%% For charts %%%%%%%%%%%%%%%%%%%%
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+\usetikzlibrary{positioning, ext.paths.ortho}
+
+%%%%%%%%%%%%%%%%%%%% main %%%%%%%%%%%%%%%%%%%%%%%
+\title{PGFPlots/TikZ Boilerplate}
+\author{JP Talusan}
+\date{March 2024}
+
+\begin{document}
+
+\maketitle
+\input{plots/one_boxplot}
+
+\input{plots/color_boxplot}
+
+\input{plots/bar_with_errors}
+
+\input{plots/bar_with_errors_from_file}
+
+\input{plots/bar_read_csv}
+
+\input{plots/lineplot}
+
+\input{plots/marker_plus_line}
+
+\input{plots/heatmap}
+
+\input{plots/two_boxplots}
+
+\input{plots/multiple_subplots}
+
+\input{plots/two_y_axes}
+
+\input{plots/filter}
+
+\input{plots/restricting}
+
+\input{plots/fillbetween}
+
+\input{charts/basic_flowchart}
+\end{document}

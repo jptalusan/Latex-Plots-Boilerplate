@@ -1,0 +1,32 @@
+\pgfplotstableread[col sep=comma]{data/ypred_vs_ytrue.csv}{\loadedtable}
+    % and store the number of columns in `\NoOfCols'
+    % (minus 1 because counting in `\foreach' starts with zero
+    \pgfplotstablegetcolsof{\loadedtable}
+    % \pgfmathtruncatemacro{\NoOfCols}{\pgfplotsretval-1}
+    
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    xlabel={Predicted},
+    ylabel={Actual},
+    % axis equal image, % Ensure the aspect ratio is 1:1
+    grid=both,
+    grid style={line width=.1pt, draw=gray!10},
+    major grid style={line width=.2pt,draw=gray!50},
+    legend pos=north west,
+    width=0.9\linewidth,
+]
+
+% Add the dashed diagonal line
+\addplot+[domain=0:100, dashed, no marks, samples=2] {x}; % Adjust domain as needed
+\addlegendentry{Ideal}
+
+% Add the scatter plot
+\addplot+[only marks, mark=*, mark options={scale=1}, opacity=0.5] table[x=predicted, y=actual, col sep=comma] {\loadedtable};
+\addlegendentry{Predicted vs Actual}
+
+\end{axis}
+\end{tikzpicture}
+\caption{Comparison of Predicted vs Actual Results}
+\end{figure}

@@ -1,0 +1,76 @@
+% https://tex.stackexchange.com/questions/102385/how-to-draw-a-return-arrow-from-node-3-to-node-1
+% https://tex.stackexchange.com/questions/539468/how-to-define-a-maximum-height-for-a-tikz-decision-node
+% https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ%3A_A_Tutorial_for_Beginners_(Part_3)%E2%80%94Creating_Flowcharts
+\newcommand\nodebg{white!100}
+
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=\nodebg, text width=3cm]
+
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=\nodebg]
+
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, text width=3cm, draw=black, fill=\nodebg]
+
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=\nodebg, text width=2cm, aspect=1.4]
+
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+\tikzset{
+  block/.style={rectangle,draw,minimum size=1cm},
+  line/.style={draw, -latex},
+}
+
+\begin{figure}
+% \centering
+\begin{tikzpicture}[node distance=0.5cm, 
+  scale=0.8, transform shape,
+  % auto,
+  /utils/temp/.style={#1/.style={to path={r-#1(\tikztotarget)\tikztonodes}}},
+  /utils/temp/.list={ud, rl, du, lr}
+  ]
+\node (start) [startstop] {\texttt{execute()}};
+\node (dec1) [decision, below=of start] {EventQueue Empty?};
+
+\node (pro1) [process, right=of dec1] {Simulation finished};
+\node (pro2) [process, below=of dec1] {Execute all events in current timestep};
+\node (pro3) [process, below=of pro2] {Update environment and state};
+
+\node (dec2) [decision, below=of pro3] {Did cars arrive?};
+\node (pro4) [process, right=of dec2] {Assign cars to chargers};
+\node (pro5) [process, below=of dec2] {Get charger actions from policy};
+\node (pro6) [process, below=of pro5] {Take policy action and update state};
+
+\node (pro7) [process, below=of pro6] {Log state and actions};
+\node (pro8) [process, below=of pro7] {Increment timestep};
+
+
+\draw [arrow] (start) -- (dec1);
+\draw [arrow] (dec1) -- node[anchor=south] {yes} (pro1);
+\draw [arrow] (dec1) -- node[anchor=east] {no} (pro2);
+\draw [arrow] (pro2) -- (pro3);
+\draw [arrow] (pro3) -- (dec2);
+\draw [arrow] (dec2) -- node[anchor=south] {yes} (pro4);
+\draw [arrow] (dec2) -- node[anchor=east] {no} (pro5);
+\draw [arrow] (pro4) |- (pro5);
+
+\draw [arrow] (pro5) -- (pro6);
+\draw [arrow] (pro6) -- (pro7);
+\draw [arrow] (pro7) -- (pro8);
+\path [line] (pro8) edge[lr] (start);
+
+% \draw [arrow] (pro8) -- (start);
+
+
+% \draw [arrow] (start) -- (in1);
+% \draw [arrow] (in1) -- (pro1);
+% \draw [arrow] (pro1) -- (dec1);
+% \draw [arrow] (dec1) -- (pro2a);
+% \draw [arrow] (dec1) -- (pro2b);
+
+% \draw [arrow] (dec1) -- node[anchor=east] {yes} (pro2a);
+% \draw [arrow] (dec1) -- node[anchor=south] {no} (pro2b);
+
+% \draw [arrow] (pro2a) -- (out1);
+% \draw [arrow] (out1) -- (stop);
+% \draw [arrow] (pro2b) |- (pro1);
+
+\end{tikzpicture}
+\end{figure}

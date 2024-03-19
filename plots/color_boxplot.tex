@@ -1,0 +1,39 @@
+\begin{figure}
+    \centering
+\begin{tikzpicture}
+    \pgfplotstableread[col sep=comma]{data/data.csv}\csvdata
+    % Boxplot groups columns, but we want rows
+    \pgfplotstabletranspose\datatransposed{\csvdata} 
+    \begin{axis}[
+        boxplot/draw direction = y,
+        x axis line style = {opacity=1},
+        % axis x line* = bottom,
+        % axis y line = left,
+        enlarge y limits,
+        ymajorgrids,
+        grid style={line width=.1pt, draw=gray!10},
+        xtick = {1, 2, 3, 4},
+        xticklabel style = {align=center, font=\small, rotate=60},
+        xticklabels = {Apples, Oranges, Bananas, Melons},
+        xtick style = {draw=none}, % Hide tick line
+        ylabel = {Juiciness},
+        % ytick = {20, 40},
+        width=0.45\textwidth
+    ]
+        \foreach \n in {1,...,4} {
+            % \addplot+[mark=*, boxplot, fill, draw=black] table[y index=\n] {\datatransposed};
+            % \addplot+[mark=*, boxplot, fill, draw=black, opacity=30] table[y index=\n] {\datatransposed};
+            \addplot[
+                mark=*, 
+                boxplot, 
+                fill=blue!30, 
+                draw=black, 
+                opacity=30
+            ] table[y index=\n] {\datatransposed};
+            
+        }
+    \end{axis}
+\end{tikzpicture}
+\caption{Box Plot with Color}
+\label{fig:enter-label}
+\end{figure}

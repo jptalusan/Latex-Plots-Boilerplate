@@ -1,0 +1,178 @@
+% https://tikz.dev/pgfplots/reference-markers
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[
+    group style={
+        group size=3 by 1, % 1 column, 3 rows
+        % vertical sep=2cm, % Separation between plots
+        horizontal sep=2cm, % Separation between plots
+    },
+    % Divide by the number of plots
+    width=0.32\textwidth,
+    height=5cm,
+]
+
+% First subplot
+\nextgroupplot[title=Plot 1, xlabel={X axis 1}, ylabel={Y axis 1}]
+\addplot 
+[thick, mark=*, mark options={solid, color=blue!30}, color=blue!30]
+table[col sep=comma, x=X, y=Y1] {data/multi_plot.csv};
+
+% Second subplot
+\nextgroupplot[title=Plot 2, xlabel={X axis 2}, ylabel={Y axis 2}]
+\addplot
+[mark=oplus]
+table[col sep=comma, x=X, y=Y2] {data/multi_plot.csv};
+
+% Third subplot
+\nextgroupplot[title=Plot 3, xlabel={X axis 3}, ylabel={Y axis 3}]
+\addplot 
+[mark=square*, loosely dashed]
+table[col sep=comma, x=X, y=Y3] {data/multi_plot.csv};
+
+\end{groupplot}
+\end{tikzpicture}
+\caption{Multiple subplots columns}
+\end{figure*}
+
+
+%%%%%% MULTI ROWS %%%%%%%
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[
+    group style={
+        group size=1 by 3, % 1 column, 3 rows
+        vertical sep=1cm, % Separation between plots
+        % horizontal sep=2cm, % Separation between plots
+    },
+    % Divide by the page width
+    width=0.49\textwidth,
+    height=5cm,
+]
+
+% First subplot
+\nextgroupplot[
+    title=Plot 1, 
+    % xlabel={X axis 1}, 
+    ylabel={Y axis 1}
+]
+\addplot table[col sep=comma, x=X, y=Y1] {data/multi_plot.csv};
+
+% Second subplot
+\nextgroupplot[
+    title=Plot 2, 
+    % xlabel={X axis 2}, 
+    ylabel={Y axis 2}
+]
+\addplot table[col sep=comma, x=X, y=Y2] {data/multi_plot.csv};
+
+% Third subplot
+\nextgroupplot[
+    title=Plot 3,
+    xlabel={X axis 3},
+    ylabel={Y axis 3}
+]
+\addplot
+[thick, mark=*, mark options={solid, color=blue!30}, color=blue!30] 
+table[col sep=comma, x=X, y=Y3] {data/multi_plot.csv};
+
+\end{groupplot}
+\end{tikzpicture}
+\caption{Multiple subplots rows}
+\end{figure}
+
+
+%%%%%% 2D %%%%%
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[
+    group style={
+        group size=3 by 2, % 3 column, 2 rows
+        vertical sep=0.2cm, % Separation between plots
+        horizontal sep=0.2cm, % Separation between plots
+    },
+    % Divide by the page width
+    width=0.45\linewidth,
+    height=0.33\textwidth,
+]
+
+% First subplot
+\nextgroupplot[
+    % title=Plot 1, 
+    % xlabel={X axis 1}, 
+    ylabel={Y axis 1},
+    xticklabels={}
+]
+\addplot table[col sep=comma, x=X, y=Y1] {data/multi_plot.csv};
+
+% Second subplot
+\nextgroupplot[
+    title=Overall, 
+    % xlabel={X axis 2}, 
+    % ylabel={Y axis 2}
+    yticklabels={},
+    xticklabels={}
+]
+\addplot[thick, mark=*, mark options={solid, color=blue!30}, color=blue!30] table[col sep=comma, x=X, y=Y2] {data/multi_plot.csv};
+
+% Third subplot
+\nextgroupplot[
+    % title=Plot 3,
+    % xlabel={X axis 3},
+    % ylabel={Y axis 3}
+    yticklabels={},
+    xticklabels={}
+]
+\addplot table[col sep=comma, x=X, y=Y3] {data/multi_plot.csv};
+
+% Fourth subplot
+\nextgroupplot[
+    % title=Plot 1, 
+    xlabel={X axis 1}, 
+    ylabel={Y axis 1},
+]
+\addplot table[col sep=comma, x=X, y=Y4] {data/multi_plot.csv};
+
+% Fifth subplot
+\nextgroupplot[
+    % title=Plot 2, 
+    xlabel={X axis 2}, 
+    % ylabel={Y axis 2}
+    yticklabels={}
+]
+\addplot table[col sep=comma, x=X, y=Y5] {data/multi_plot.csv};
+
+% Sixth subplot
+\nextgroupplot[
+    % title=Plot 3,
+    xlabel={X axis 3},
+    % ylabel={Y axis 3}
+    yticklabels={}
+]
+\addplot table[col sep=comma, x=X, y=Y6] {data/multi_plot.csv};
+
+\end{groupplot}
+\end{tikzpicture}
+\caption{Multiple subplots 2D}
+\end{figure}
+
+
+% When Axis labels don't match along the axis because of differences in the ticks:
+% 
+% \pgfplotsset{compat=1.6, ylabsh/.style={every axis y label/.style={at={(0,0.5)}, xshift=#1, rotate=90}}}  
+
+% Usage:
+% \begin{groupplot}[
+%     group style={
+%         group size=1 by 3, % 1 column, 3 rows
+%         vertical sep=0.2cm, % Separation between plots
+%         % horizontal sep=2cm, % Separation between plots
+%     },
+%     ylabsh=-2.5em,
+% ]
+
+% \end{groupplot}
