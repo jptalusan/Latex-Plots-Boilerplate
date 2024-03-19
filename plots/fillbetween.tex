@@ -41,7 +41,7 @@
 \addplot[blue, name path=a, no markers, smooth, thick] table[x=trip_load, y=transit_date, col sep=comma]{\routethree};
 \legend{Route 3}
 
-\addplot+[blue!30, opacity=0.4] fill between [of=a and xaxis, soft clip={domain=-1:150}];
+\addplot+[blue!30, opacity=0.4] fill between [of=a and xaxis, soft clip={domain=-1:10}];
 % \legend{Value2}
 
 
