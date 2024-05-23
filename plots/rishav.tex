@@ -1,0 +1,84 @@
+% load the data table ...
+\pgfplotstableread[col sep=comma]{data/rishav.csv}{\loadedtable}
+    % and store the number of columns in `\NoOfCols'
+    % (minus 1 because counting in `\foreach' starts with zero
+    % \pgfplotstablegetcolsof{\loadedtable}
+
+
+\begin{figure*}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.9\linewidth,
+    height=2in,
+    ybar,
+    legend style={at={(0.3, 1.01)}, anchor=south},
+    legend columns = -1,
+    ylabel={Cost {\$}},
+    ylabel style={font=\large},
+    xlabel style={font=\small},
+    xtick={0, 1, 2, 3, 4, 5, 6},
+    xticklabels from table={\loadedtable}{policy}, % Read xticklabels from the CSV file
+    tick pos=left,
+    minor x tick num=5,
+    minor y tick num=5,
+    grid=both,
+    ymajorgrids=true,
+    yminorgrids=true,
+    % xmajorgrids=false,
+    xminorgrids=false,
+    major grid style={line width=.2pt,draw=gray!30},
+]
+%neutral
+\addplot[blue,fill=blue!50!white,  area legend,error bars/.cd,y dir=both,y explicit,] table[
+  x expr=\coordindex, % Use index for x values
+  y=demand_charge_mean, % y values from "Mean" column
+  col sep=comma,
+  y error=demand_charge_std % Error values from "Error" column
+] {\loadedtable};
+\label{firstYplot}
+
+\addplot[red,fill=red!40!white, area legend, error bars/.cd,y dir=both,y explicit,] table[
+  x expr=\coordindex, % Use index for x values
+  y=energy_cost_mean, % y values from "Mean" column
+  col sep=comma,
+  y error=energy_cost_std % Error values from "Error" column
+] {\loadedtable};
+\legend{Demand cost (\$), Energy cost(\$)}
+
+\end{axis}
+
+\begin{axis}[
+    width=0.9\linewidth,
+    height=2in,
+    axis x line=none,
+    axis y line*=right,
+    % enlarge x limits=0.25,
+    % ybar,
+    legend style={at={(0.8, 1.01)}, anchor=south},
+    legend columns = -1,
+    ylabel={SoC Gap (kWh)},
+    ylabel style={font=\large},
+    xtick={0, 1, 2, 3, 4, 5, 6},
+    xticklabels from table={\loadedtable}{policy}, % Read xticklabels from the CSV file
+    ymin=-10,
+    ymax=50,
+    % scaled y ticks = false,
+]
+% \addlegendimage{/pgfplots/refstyle=firstYplot}\addlegendentry{demand charge, energy cost}
+\addplot[black!100,error bars/.cd,y dir=both,y explicit,] table[
+  x expr=\coordindex+1.0, % Use index for x values
+  y=soc_diff_mean, % y values from "Mean" column
+  col sep=comma,
+  y error=soc_diff_std % Error values from "Error" column
+] {\loadedtable};
+% \addplot[black,dashed,domain = 1:6,samples = 2] {0};
+\legend{Energy Gap (kWh)}
+
+\end{axis}
+\end{tikzpicture}
+\caption{Comparison of demand cost and energy cost against SoC difference across different policies. A positive SoC Gap means that the cars departed with more charge than required. If it's negative, they departed with less charge than required. Ideally SoC gap should be 0.}
+\label{fig:cost_comp}
+\vspace{-5mm}
+\end{figure*}
+

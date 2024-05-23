@@ -1,0 +1,74 @@
+\begin{figure*}
+    \centering
+    
+\begin{ganttchart}[
+y unit title=0.3cm,
+y unit chart=0.4cm,
+x unit=0.5cm,
+vgrid,hgrid, 
+title label anchor/.style={below=-1.6ex},
+title left shift=.05,
+title right shift=-.05,
+title height=1.4,
+progress label text={},
+bar height=0.7,
+group right shift=0,
+group top shift=.4,
+group height=.4]{1}{24}
+%labels
+\gantttitle{Months}{24} \\
+\gantttitle{1}{2} 
+\gantttitle{2}{2} 
+\gantttitle{3}{2} 
+\gantttitle{4}{2} 
+\gantttitle{5}{2} 
+\gantttitle{6}{2} 
+\gantttitle{7}{2} 
+\gantttitle{8}{2} 
+\gantttitle{9}{2} 
+\gantttitle{10}{2} 
+\gantttitle{11}{2} 
+\gantttitle{12}{2} \\
+%tasks
+\ganttbar{Task 1.1}{1}{2} \\
+\ganttbar{Task 1.2}{3}{4} \\
+\ganttbar{Task 1.3}{4}{7} \\
+\\
+\ganttbar{Task 2.1}{3}{4} \\
+\ganttbar{Task 2.2}{5}{6} \\
+\ganttbar{Task 2.3}{7}{10} \\
+\ganttbar{Task 2.4}{9}{16} \\
+\ganttbar{Task 2.5}{9}{16} \\
+\\
+\ganttbar{Task 3.1}{11}{14} \\
+\ganttbar{Task 3.2}{15}{18} \\
+\\
+\ganttbar{Task 4.1}{1}{2} \\
+\ganttbar{Task 4.2}{17}{21} \\
+\ganttbar{Task 4.3}{21}{24} \\
+\\
+\ganttbar{Task 5.1}{23}{24} \\
+\ganttbar{Task 5.2}{23}{24} \\
+% \ganttbar{task 4}{11}{15} \\
+% \ganttbar[progress=33]{task 5}{20}{22} \\
+% \ganttbar{task 6}{18}{19} \\
+% \ganttbar{task 7}{16}{18} \\
+% \ganttbar[progress=0]{task 8}{21}{24}
+
+%relations 
+\ganttlink{elem2}{elem5} 
+\ganttlink{elem2}{elem6} 
+\ganttlink{elem2}{elem7} 
+\ganttlink{elem7}{elem11} 
+% \ganttlink{elem3}{elem4} 
+% \ganttlink{elem1}{elem5} 
+% \ganttlink{elem3}{elem5} 
+% \ganttlink{elem2}{elem6} 
+% \ganttlink{elem3}{elem6} 
+% \ganttlink{elem5}{elem7} 
+\end{ganttchart}
+
+
+    \caption{Caption}
+    \label{fig:gantt}
+\end{figure*}

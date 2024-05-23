@@ -1,5 +1,7 @@
 \documentclass[conference]{IEEEtran}
 \usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath} % Equation
+
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
 \usepgfplotslibrary{statistics}
@@ -7,6 +9,8 @@
 % \usepackage{filecontents}
 \usepgfplotslibrary{fillbetween} % Load the fillbetween library
 \usepgfplotslibrary{groupplots}
+\usepackage{pgfgantt}
+
 %%%%%%%%%%%% For one box plot %%%%%%%%%%%%
 \pgfplotsset{
     box plot/.style={
@@ -128,6 +132,11 @@
 \usetikzlibrary{shapes.geometric, arrows}
 \usetikzlibrary{positioning, ext.paths.ortho}
 
+%%%%%%%%%%%% EQS
+\DeclareMathOperator*{\argminA}{arg\,min} % Jan Hlavacek
+\DeclareMathOperator*{\argmaxA}{arg\,max} % Jan Hlavacek
+\DeclareMathOperator*{\maxA}{max} % Jan Hlavacek
+
 %%%%%%%%%%%%%%%%%%%% main %%%%%%%%%%%%%%%%%%%%%%%
 \title{PGFPlots/TikZ Boilerplate}
 \author{JP Talusan}
@@ -167,4 +176,18 @@
 \input{plots/heatmap_v2}
 
 \input{charts/basic_flowchart}
+
+\input{charts/gantt}
+
+\begin{equation}
+    % \sum_{s' \in \mathcal{S}} \sum_{r \in \mathcal{R}} p (s', r| s, a) = 1, \text{for all  } s \in \mathcal{S}, a \in \mathcal{A} (s)
+    % \mathcal{S} \times \mathcal{S} \times \mathcal{A} \rightarrow [0, 1]
+    % \pi^*(s) = \argmaxA_{\pi} \mathcal{U}^{\pi}(s)
+    % U^{\pi}_{k+1} (s) = R(s, \pi(s)) + \gamma \sum_{s'} T(s'|s,\pi(s)) U^{\pi}_{k} (s')
+    % U(s) = \maxA_{a} Q(s, a)
+    % \pi(s) = \argmaxA_{a} Q(s, a)
+    \mathcal{O}(|\mathcal{S}| \times |\mathcal{A}|)
+\end{equation}
+
+% \input{plots/rishav}
 \end{document}
