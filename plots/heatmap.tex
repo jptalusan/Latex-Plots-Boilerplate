@@ -1,4 +1,13 @@
-% Don't know how to read form file.
+% Check if a value is a multiple of X and plot it.
+\newcommand\ifismultiple[4]{%
+    \pgfmathparse{mod(#1,#2)==0}
+    \ifnum \pgfmathresult=1
+    #3%
+    \else
+    #4%
+    \fi
+}
+
 \begin{figure}
     \centering
 \begin{tikzpicture}[scale=0.6, style={node contents={}}]
@@ -14,21 +23,33 @@
       {3,2,3,5,0,0,1,1,0},
     } {
       % column labels
-      \ifnum\n<10
-        \node[minimum size=6mm] at (\n, 0) {\n};
-      \fi
+
+      \ifismultiple{\n}{2}{\node[minimum size=6mm] at (\n, 0) {\n};}{}
+        % {
+        % \pgfmathtruncatemacro{\itest}{ifthenelse(\n==5||\n==7,1,0)}
+        %     \ifnum\itest=1
+        %          \node[minimum size=6mm] at (\n, 0) {\n};
+        %     \fi
+        % }
+        
+      % \ifnum \n < 10
+      %   \node[minimum size=6mm] at (\n, 0) {\n};
+      % \fi
       % heatmap tiles
       \foreach \x [count=\m] in \y {
-        \node[fill=yellow!\x!purple, minimum size=6mm, text=white, font=\tiny] at (\m,-\n) {\x};
+        % With text in box
+        % \node[fill=yellow!\x!purple, minimum size=6mm, text=white, font=\tiny] at (\m,-\n) {\x};
+        % Without text in box
+        \node[fill=yellow!\x!purple, minimum size=6mm, text=white, font=\tiny] at (\m,-\n) {};
       }
     }
 
   % row labels
-  \foreach \a [count=\i] in {a,b,c,d,e,f,g,h,i} {
+  \foreach \a [count=\i] in {a,b,c,d,e,f,g,x,i} {
     \node[minimum size=6mm] at (0,-\i) {\a};
   }
 \end{tikzpicture}
     % \includegraphics{}
-    \caption{Heatmap}
+    \caption{Heatmap without text in cell.}
     \label{fig:heatmap}
 \end{figure}

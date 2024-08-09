@@ -1,0 +1,91 @@
+\pgfplotstableread[col sep=comma]{data/dynamic_multi_plot.csv}{\loadedtable}
+
+% https://tikz.dev/pgfplots/reference-markers
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[
+    group style={
+        group size=4 by 1, % 1 column, 3 rows
+        % vertical sep=2cm, % Separation between plots
+        horizontal sep=0.2cm, % Separation between plots
+    },
+    % Divide by the number of plots
+    width=0.32\textwidth,
+    height=5cm,
+    ticks=none,
+    legend style={nodes={scale=0.8, transform shape}, 
+                  legend columns=8,
+                  at={(3.3, 1.14)},
+                  anchor=east,
+                 },
+    grid=minor,
+    grid style={line width=.1pt, draw=gray!10},
+    major grid style={line width=.2pt,draw=gray!50},
+    minor x tick num=5,
+    minor y tick num=5,
+    ytick style={draw=none},
+    xtick style={draw=none},
+    ymin=0,
+    xmin=0,
+    xmax=1,
+    ymax=1,
+]
+
+% SMD subplot
+\nextgroupplot[
+    % title=Plot 1, 
+    align=center,
+    xlabel={PSM\\False Positive Rate}, 
+    ylabel={True Positive Rate}
+]
+\pgfplotsinvokeforeach {iso,lof,ocsvm,tranad,anotran,ganf,mtgf,wenflow} {
+\addplot+ table [x=FPR_#1,y=TPR_#1] \loadedtable;
+\addlegendentry{#1}
+}
+\addplot[gray, domain=0:1, dashed, no marks, samples=2] {x}; % Adjust domain as needed
+
+
+
+% PSM subplot
+\nextgroupplot[
+    % title=Plot 1, 
+    align=center,
+    xlabel={SMD\\False Positive Rate}, 
+    % ylabel={Y axis 1}
+]
+\pgfplotsinvokeforeach {iso,lof,ocsvm,tranad,anotran,ganf,mtgf,wenflow} {
+\addplot table [x=FPR_#1,y=TPR_#1] \loadedtable;
+}
+\addplot[gray, domain=0:1, dashed, no marks, samples=2] {x}; % Adjust domain as needed
+
+
+% SWaT subplot
+\nextgroupplot[
+    % title=Plot 1, 
+    align=center,
+    xlabel={SWaT\\False Positive Rate}, 
+    % ylabel={Y axis 1}
+]
+\pgfplotsinvokeforeach {iso,lof,ocsvm,tranad,anotran,ganf,mtgf,wenflow} {
+\addplot table [x=FPR_#1,y=TPR_#1] \loadedtable;
+}
+\addplot[gray, domain=0:1, dashed, no marks, samples=2] {x}; % Adjust domain as needed
+
+
+% WADI subplot
+\nextgroupplot[
+    % title=Plot 1, 
+    align=center,
+    xlabel={WADI\\False Positive Rate}, 
+    % ylabel={Y axis 1}
+]
+\pgfplotsinvokeforeach {iso,lof,ocsvm,tranad,anotran,ganf,mtgf,wenflow} {
+\addplot table [x=FPR_#1,y=TPR_#1] \loadedtable;
+}
+\addplot[gray, domain=0:1, dashed, no marks, samples=2] {x}; % Adjust domain as needed
+
+\end{groupplot}
+\end{tikzpicture}
+\caption{Dynamically generated groupplot using \textit{pgfplotsinvokeforeach}}
+\end{figure*}

@@ -11,6 +11,28 @@
 \usepgfplotslibrary{groupplots}
 \usepackage{pgfgantt}
 
+%%% for tables %%%
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+
+%%% for multi-header table %%%
+\usepackage{multirow}
+\usepackage{collcell}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{datatool}
+
+\pgfplotstableset{%
+  every head row/.style={before row=\toprule, after row=\midrule},
+  every last row/.style={after row=\bottomrule}
+}
+
+\newcommand*\rot{\rotatebox{90}}
+\newcommand{\rowhead}[1]{\dorowhead#1\relax}
+\def\dorowhead#1#2\relax{$#1_{#2}$}
+
+
 %%%%%%%%%%%% For one box plot %%%%%%%%%%%%
 \pgfplotsset{
     box plot/.style={
@@ -189,5 +211,14 @@
     \mathcal{O}(|\mathcal{S}| \times |\mathcal{A}|)
 \end{equation}
 
+
 % \input{plots/rishav}
+
+\input{tables/read_csv}
+
+\input{tables/multiheader}
+
+\input{plots/groupplot_dynamic}
+
+\input{tables/basic_table}
 \end{document}

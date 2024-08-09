@@ -1,0 +1,39 @@
+
+\begin{filecontents}{testdata.csv}
+theta, x, y
+, jp, test
+30.0,   0.0,    0.0
+60.0,   1.9098, 5.8779
+90.0,   6.9098, 9.5106
+120.0,  13.09,  9.5106
+150.0,  18.09,  5.8779
+180.0,  20.0,   0.0
+\end{filecontents}
+
+\pgfplotstableread[col sep=comma]{testdata.csv}{\table}
+
+\begin{table*}
+\centering
+\caption{Reading Table from a File with \textbf{siunitx}.}
+\pgfplotstabletypeset[
+    % dec sep align=S,    % Use the siunitx `S` column type for aligning at decimal point
+    fixed,fixed zerofill,     % Fill numbers with zeros
+    precision=3,        % Set number of decimals
+    display columns/0/.style={
+        precision=1,    % Change for first column (column index 0)
+        column name=$\theta_{2,i}$
+    },
+    % display columns/1/.style={column name=$X$,column type={S}},
+    % display columns/2/.style={column name=$Y$,column type={S}},
+    every row 0 column 1/.style={string type},
+    every row 0 column 2/.style={string type},
+    every head row/.style={before row=\toprule, after row=\midrule},
+    every last row/.style={after row=\bottomrule},
+  every row 2 column 1/.style={
+    postproc cell content/.style={
+      @cell content/.add={$\bf}{$}
+    }
+  },
+    ] {\table}
+\label{table:read_csv}
+\end{table*}

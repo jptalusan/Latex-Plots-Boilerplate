@@ -1,0 +1,40 @@
+\begin{table*}[h!]
+\centering
+\caption{Simple table}
+\resizebox{0.5\textwidth}{!}{%
+\begin{tabular}{l l}
+\toprule
+\textbf{Data} & \textbf{Description}                                                      \\ \midrule
+id              & Irregularity  $\pm$Identifier                                           \\ \hline
+type            & Irregularity   type                                                 \\ \hline
+speed           & Traffic speed   in irregularity                                     \\ \hline
+regularSpeed    & Historical   regular speed in segment in kmh                        \\ \hline
+delaySeconds    & Delay   in seconds from regular speed                               \\ \hline
+seconds         & Historical   time to travel the jam length minus the free flow time \\ \hline
+length          & Irregularity   length                                               \\ \hline
+trend           & -1   improving, 0 constant, 1 getting worse                         \\ \hline
+street          & Street   name                                                       \\ \hline
+city            & City   name                                                         \\ \hline
+country         & Country   name                                                      \\ \hline
+severity        & Calculated   severity of irregularity compared to historical speed  \\ \hline
+jamLevel        & Traffic congestion level                                            \\ \hline
+driversCount    & Number of   Wazers in irregularity                                  \\ \hline
+alertsCount     & How   many alerts from Wazers in irregularity segments              \\ \hline
+endNode         & Nearest   Junction/steet/city to jam end (supplied when available)  \\ \hline
+nImages         & Number   of images uploaded related to the jam                      \\ \hline
+highway         & Is   highway true/false                                             \\ \hline
+nThumbsUp       & Number   of thumbs up related to the jam                            \\ \hline
+geo             & Geography   of the jam                                              \\ \hline
+geoWKT          & Geography   of the jam                                              \\ \hline
+startNode       & Nearest   Junction/steet/city to jam start (supplied when           \\ \hline
+detectionDateTS & Timestamp                                                           \\ \hline
+updateDateTS    & Last   update                                                       \\ \hline
+nComments       & Number   of comments related to the jam                             \\ \hline
+causeType       & Alert   type that caused the irregularity                           \\ \hline
+causeAlertUUID  & Alert   ID                                                         \\ \bottomrule
+\end{tabular}
+}
+\label{table:waze_irregularities}
+
+\end{table*}
+
