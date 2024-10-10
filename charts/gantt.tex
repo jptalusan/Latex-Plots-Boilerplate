@@ -72,3 +72,35 @@ group height=.4]{1}{24}
     \caption{Gantt Chart.}
     \label{fig:gantt}
 \end{figure*}
+
+\begin{figure}
+\label{Stage 1 Tasks}
+\begin{ganttchart}[
+y unit title=0.3cm,
+y unit chart=0.4cm,
+x unit=0.35cm,
+vgrid,hgrid, 
+title label anchor/.style={below=-1.6ex},
+title left shift=.05,
+title right shift=-.05,
+title height=1.4,
+progress label text={},
+bar height=0.7,
+group right shift=0,
+group top shift=.3,
+group height=.3]{1}{24}
+
+\gantttitle{September}{4} 
+\gantttitle{October}{4} 
+\gantttitle{November}{4} 
+\gantttitle{December}{4} 
+\gantttitle{January}{4} 
+\gantttitle{February}{4} \\
+
+%tasks
+\ganttbar{Task 1}{1}{4} \\
+\ganttbar{Task 2}{5}{12} \\
+\ganttbar{Task 3}{13}{24} \\
+\ganttbar{Task 4}{17}{21}
+\end{ganttchart}
+\end{figure}

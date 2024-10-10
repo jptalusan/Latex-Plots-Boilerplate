@@ -1,0 +1,50 @@
+% Problem is it loses the style after applying the new style
+% https://tex.stackexchange.com/questions/276395/pgfplotstable-formatting-problems
+\begin{filecontents*}{ablation_study.csv}
+Policy,MAY,JUN,JULY,AUG,SEP,OCT,NOV,DEC,JAN,Total
+RL,6222.62,6871.45,7392.23,9363.32,7243.05,7696.29,6654.89,6381.00,6635.00, 64459.85
+A, 6240.23,6909.8,8006.93,9391.75,7266.35,7718.57,6658.21,6490.55,6649.63, 65332.02 
+A,6464.49,7033.71,7631.95,9585.84,7671.27,7880.21,6902.64,6495.58,6783.09,66448.78 
+A,6377.01,7174.84,7721.81,9578.1,7687.2,8035.04,7363.5,6940.0,6985.89, 67863.39
+\end{filecontents*}
+\pgfplotstableread[col sep=comma]{ablation_study.csv}{\table}
+
+\begin{table*}[h]
+\centering
+\caption{Changing styles dynamically but issue is the style previously applied gets overwritten.}
+\pgfplotstabletypeset[
+    every row 0 column 1/.style={postproc cell content/.style={@cell content={\textbf{##1}}}}, %bolding
+    every row 0 column 2/.style={postproc cell content/.style={@cell content={\textbf{##1}}}}, %bolding
+    every row 0 column 3/.style={postproc cell content/.style={@cell content={\textbf{##1}}}}, %bolding
+    every row 0 column 4/.style={postproc cell content/.style={@cell content={\textbf{##1}}}}, %bolding
+    every row 0 column 5/.style={postproc cell content/.style={@cell content={\textbf{##1}}}}, %bolding
+    every row 0 column 6/.style={postproc cell content/.style={@cell content={\textbf{##1}}}}, %bolding
+    every row 0 column 7/.style={postproc cell content/.style={@cell content={\textbf{##1}}}}, %bolding
+    every row 0 column 8/.style={postproc cell content/.style={@cell content={\textbf{##1}}}}, %bolding
+    every row 0 column 9/.style={postproc cell content/.style={@cell content={\textbf{##1}}}}, %bolding
+    % dec sep align=S,    % Use the siunitx `S` column type for aligning at decimal point
+    fixed,fixed zerofill,     % Fill numbers with zeros
+    precision=2,        % Set number of decimals
+      columns/Policy/.style={
+        string type,
+        postproc cell content/.code={%
+            \pgfplotsutilstrreplace{_}{\_}{##1}%
+            \pgfkeyslet{/pgfplots/table/@cell content}\pgfplotsretval
+        },
+      },
+     columns/Month/.style={
+        string type,
+        postproc cell content/.code={%
+            \pgfplotsutilstrreplace{_}{\_}{##1}%
+            \pgfkeyslet{/pgfplots/table/@cell content}\pgfplotsretval
+        },
+      },
+    every head row/.style={before row=\toprule, after row=\midrule},
+    every last row/.style={after row=\bottomrule},
+    every row 0 column 10/.style={postproc cell content/.append code={\pgfkeysalso{@cell content={\textbf{##1}}}},
+    zerofill,
+    precision=2
+    },
+    ] {\table}
+\label{table:ablation_study}
+\end{table*}

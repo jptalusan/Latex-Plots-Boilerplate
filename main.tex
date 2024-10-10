@@ -16,6 +16,9 @@
 \usepackage{booktabs}
 \usepackage{amsmath,amssymb}
 
+%%% for url references %%%%
+\usepackage{url}
+
 %%% for multi-header table %%%
 \usepackage{multirow}
 \usepackage{collcell}
@@ -167,6 +170,11 @@
 \begin{document}
 
 \maketitle
+
+List of references:
+\begin{itemize}
+    \item For tables: \footnote{\url{https://reijz.github.io/2016/01/25/pgfplotstable.html}}
+\end{itemize}
 \input{plots/one_boxplot}
 
 \input{plots/color_boxplot}
@@ -221,4 +229,6 @@
 \input{plots/groupplot_dynamic}
 
 \input{tables/basic_table}
+
+\input{tables/dynamic_table_with_styles}
 \end{document}
